@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cool Water - Eco Sustainability App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #7fcdcd 50%, #81c784 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            display: none;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: #66bb6a;
+            font-size: 0.9rem;
+        }
+
+        .qr-section {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .bottle-container {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .bottle {
+            width: 120px;
+            height: 200px;
+            background: linear-gradient(180deg, #4caf50 0%, #2e7d32 100%);
+            border-radius: 60px 60px 20px 20px;
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .bottle::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 30px;
+            background: #2e7d32;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .qr-code {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            margin: 1rem auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #2e7d32;
+        }
+
+        .scan-animation {
+            position: absolute;
+            width: 100px;
+            height: 2px;
+            background: #4caf50;
+            animation: scan 2s infinite;
+        }
+
+        @keyframes scan {
+            0% { top: 0; opacity: 1; }
+            50% { top: 80px; opacity: 0.5; }
+            100% { top: 0; opacity: 1; }
+        }
+
+        .tarot-card {
+            width: 180px;
+            height: 260px;
+            background: linear-gradient(45deg, #fff3e0 0%, #ffcc02 70%, #ff9800 100%);
+            border-radius: 15px;
+            margin: 1rem auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 30px rgba(255, 204, 2, 0.4);
+            position: relative;
+            border: 3px solid #ff9800;
+            animation: cardGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes cardGlow {
+            0% { box-shadow: 0 12px 30px rgba(255, 204, 2, 0.4); }
+            100% { box-shadow: 0 15px 35px rgba(255, 152, 0, 0.6); }
+        }
+
+        .tarot-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a, #ffcc02, #ff9800);
+            border-radius: 17px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .sun-icon {
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #ff9800 0%, #f57c00 100%);
+            border-radius: 50%;
+            position: relative;
+            margin-bottom: 1rem;
+            animation: sunPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .sun-icon::before {
+            content: '☀️';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.2rem;
+        }
+
+        .sun-icon::after {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px dashed #ffcc02;
+            border-radius: 50%;
+            animation: rotate 8s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-title {
+            color: #e65100;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .mystical-message {
+            background: linear-gradient(135deg, rgba(255, 243, 224, 0.9) 0%, rgba(255, 204, 2, 0.1) 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border: 2px solid rgba(255, 152, 0, 0.3);
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .mystical-message::before {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 0 5px;
+            color: #ff9800;
+            font-size: 1.2rem;
+        }
+
+        .mystical-text {
+            color: #d84315;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-style: italic;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .eco-prediction {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.2) 100%);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            border-left: 4px solid #4caf50;
+            position: relative;
+        }
+
+        .prediction-title {
+            color: #2e7d32;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .prediction-text {
+            color: #1b5e20;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        .journey-map {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8f5e8;
+        }
+
+        .journey-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+        }
+
+        .journey-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+        }
+
+        .journey-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4caf50 0%, #81c784 100%);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            z-index: 2;
+        }
+
+        .step-label {
+            font-size: 0.7rem;
+            color: #2e7d32;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .info-section {
+            background: rgba(129, 199, 132, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid #4caf50;
+        }
+
+        .info-title {
+            color: #2e7d32;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-text {
+            color: #555;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .quiz-container {
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e8f5e8;
+            border-radius: 3px;
+            margin-bottom: 2rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50 0%, #66bb6a 100%);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .question {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e8f5e8;
+        }
+
+        .question-text {
+            color: #2e7d32;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .option {
+            background: #f1f8e9;
+            border: 2px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2e7d32;
+        }
+
+        .option:hover {
+            background: #e8f5e8;
+            border-color: #4caf50;
+        }
+
+        .option.selected {
+            background: #4caf50;
+            color: white;
+            border-color: #2e7d32;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-badge {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.3);
+        }
+
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .result-description {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .personality-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .share-section {
+            background: #f1f8e9;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .share-title {
+            color: #2e7d32;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
+        }
+
+        .facebook {
+            background: #1877f2;
+            color: white;
+        }
+
+        .twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(46, 125, 50, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #2e7d32;
+            transform: scale(1.5);
+        }
+
+        .leaf-decoration {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #4caf50;
+            opacity: 0.3;
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            color: rgba(46, 125, 50, 0.6);
+            text-align: center;
+            z-index: 100;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-sparkle {
+            position: absolute;
+            color: #ffcc02;
+            font-size: 1rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        .floating-sparkle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-sparkle:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+        .floating-sparkle:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+        .floating-sparkle:nth-child(4) { top: 30%; left: 75%; animation-delay: 1s; }
+        .floating-sparkle:nth-child(5) { top: 70%; left: 60%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.7;
+            }
+            25% { 
+                transform: translateY(-10px) rotate(90deg);
+                opacity: 1;
+            }
+            50% { 
+                transform: translateY(-20px) rotate(180deg);
+                opacity: 0.5;
+            }
+            75% { 
+                transform: translateY(-10px) rotate(270deg);
+                opacity: 1;
+            }
+        }
+
+        .mystical-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(255, 204, 2, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .screen {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="leaf-decoration">🌿</div>
+        <div class="copyright">© 2025 Ambisvert. All rights reserved.</div>
+        
+        <!-- Screen 1: QR Code Scan -->
+        <div class="screen active" id="screen1">
+            <div class="header">
+                <div class="logo">Cool Water</div>
+                <div class="subtitle">Eco-Friendly Hydration</div>
+            </div>
+            
+            <div class="qr-section">
+                <h2 style="color: #2e7d32; margin-bottom: 1rem;">Scan Your Cool Water Bottle</h2>
+                <div class="bottle-container">
+                    <div class="bottle">
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 0.7rem; font-weight: bold;">Cool Water<br>400ml</div>
+                    </div>
+                    <div class="qr-code">
+                        QR CODE
+                        <div class="scan-animation"></div>
+                    </div>
+                </div>
+                <div style="color: #2e7d32; margin-top: 1.5rem; text-align: center; font-weight: 600; font-size: 1.1rem;">
+                    "Scan to discover a personalized eco journey. Start your path to sustainability with Cool Water."
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextScreen()">Start Your Eco Journey</button>
+        </div>
+
+        <!-- Screen 2: Mystical Tarot & Eco Journey -->
+        <div class="screen" id="screen2">
+            <div class="floating-elements">
+                <div class="mystical-glow"></div>
+                <div class="floating-sparkle">✨</div>
+                <div class="floating-sparkle">⭐</div>
+                <div class="floating-sparkle">🌟</div>
+                <div class="floating-sparkle">✨</div>
+                <div class="floating-sparkle">⭐</div>
+            </div>
+            <div class="header">
+                <div class="logo">Your Mystical Eco Reading</div>
+                <div class="subtitle">✨ The cards reveal your path ✨</div>
+            </div>
+            
+            <div class="tarot-card">
+                <div class="sun-icon"></div>
+                <div class="card-title">The Sun</div>
+                <p style="color: #e65100; font-size: 0.85rem; margin-top: 0.5rem; font-style: italic;">Enlightenment • Growth • Clarity</p>
+            </div>
+            
+            <div class="mystical-message">
+                <div class="mystical-text">
+                    "The Sun shines brightly upon your path, guiding you toward clarity and growth. Just as the Earth flourishes, so will you—growing stronger with every eco-friendly choice you make. Your future is intertwined with nature's pulse, and your actions today shape the world of tomorrow."
+                </div>
+            </div>
+            
+            <div class="eco-prediction">
+                <div class="prediction-title">
+                    🔮 Your Eco-Life Prediction
+                </div>
+                <div class="prediction-text">
+                    Your energy flows with the Earth. Embrace your connection to nature, and you'll find peace in every moment. Soon, you'll see your actions inspire others to protect the environment. A new eco-adventure awaits you this season.
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-title">🌱 Cool Water's Mission</div>
+                <div class="info-text">At Cool Water, we believe in a sustainable future. Our products are designed to reduce environmental impact and support conscious living—one sip at a time.</div>
+            </div>
+            
+            <div class="journey-map">
+                <div class="info-title" style="text-align: center; margin-bottom: 1rem;">🌊 Your Eco Journey Map</div>
+                <div class="journey-steps">
+                    <div class="journey-step">
+                        <div class="step-icon">🌱</div>
+                        <div class="step-label">Sourcing</div>
+                    </div>
+                    <div class="journey-step">
+                        <div class="step-icon">♻️</div>
+                        <div class="step-label">Production</div>
+                    </div>
+                    <div class="journey-step">
+                        <div class="step-icon">🚚</div>
+                        <div class="step-label">Delivery</div>
+                    </div>
+                    <div class="journey-step">
+                        <div class="step-icon">💚</div>
+                        <div class="step-label">Impact</div>
+                    </div>
+                </div>
+                <div style="background: #f1f8e9; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                    <div style="font-size: 0.9rem; color: #2e7d32; line-height: 1.5; font-weight: 500;">
+                        Cool Water is committed to reducing waste with our eco-friendly packaging, sourced responsibly and designed to be recyclable. Learn more about how we are protecting the planet with every bottle.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-title">📈 Real Impact Numbers</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.8rem;">
+                    <div style="text-align: center; background: white; padding: 0.8rem; border-radius: 8px;">
+                        <div style="font-size: 1.5rem; color: #4caf50; font-weight: bold;">847</div>
+                        <div style="font-size: 0.75rem; color: #666;">Plastic bottles saved</div>
+                    </div>
+                    <div style="text-align: center; background: white; padding: 0.8rem; border-radius: 8px;">
+                        <div style="font-size: 1.5rem; color: #4caf50; font-weight: bold;">23kg</div>
+                        <div style="font-size: 0.75rem; color: #666;">CO₂ prevented</div>
+                    </div>
+                    <div style="text-align: center; background: white; padding: 0.8rem; border-radius: 8px;">
+                        <div style="font-size: 1.5rem; color: #4caf50; font-weight: bold;">156L</div>
+                        <div style="font-size: 0.75rem; color: #666;">Water conserved</div>
+                    </div>
+                    <div style="text-align: center; background: white; padding: 0.8rem; border-radius: 8px;">
+                        <div style="font-size: 1.5rem; color: #4caf50; font-weight: bold;">50+</div>
+                        <div style="font-size: 0.75rem; color: #666;">Eco projects funded</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextScreen()">Continue Your Mystical Journey</button>
+        </div>
+
+        <!-- Screen 3: Eco Quiz -->
+        <div class="screen" id="screen3">
+            <div class="header">
+                <div class="logo">Eco Personality Quiz</div>
+                <div class="subtitle">🌿 💧 💡</div>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 2rem; color: #2e7d32; font-size: 1.1rem; font-weight: 600; line-height: 1.5;">
+                "How eco-friendly are you? Take the quiz to uncover your eco-personality and discover how you can make a bigger impact on the environment!"
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="question" id="currentQuestion">
+                    <div class="question-text">How often do you bring a reusable water bottle?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(this, 3)">Always - it's part of my daily routine</div>
+                        <div class="option" onclick="selectOption(this, 2)">Most of the time</div>
+                        <div class="option" onclick="selectOption(this, 1)">Sometimes</div>
+                        <div class="option" onclick="selectOption(this, 0)">Rarely or never</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn" id="quizBtn" onclick="nextQuestion()" disabled>Next Question</button>
+        </div>
+
+        <!-- Screen 4: Results -->
+        <div class="screen" id="screen4">
+            <div class="header">
+                <div class="logo">Your Eco Personality</div>
+            </div>
+            
+            <div class="result-badge">
+                <div class="personality-icon" id="personalityIcon">🌟</div>
+                <div class="result-title" id="personalityTitle">Eco-Warrior</div>
+                <div class="result-subtitle">Sustainability Champion</div>
+                <div class="result-description" id="personalityDescription">
+                    You're a true environmental champion! Your dedication to sustainable living inspires others and creates positive change in the world.
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <div class="info-title">Your Impact This Year</div>
+                <div class="info-text">
+                    🌊 Saved 847 plastic bottles<br>
+                    🌱 Reduced 23kg CO₂ emissions<br>
+                    💧 Conserved 156L of water<br>
+                    🌍 Supported 3 eco projects
+                </div>
+            </div>
+            
+            <button class="btn" onclick="nextScreen()">Share Your Results</button>
+        </div>
+
+        <!-- Screen 5: Share Results -->
+        <div class="screen" id="screen5">
+            <div class="header">
+                <div class="logo">Share Your Impact</div>
+            </div>
+            
+            <div class="share-section">
+                <div class="share-title">🎉 Share Your Results!</div>
+                <p style="color: #2e7d32; margin-bottom: 1rem; line-height: 1.5; font-weight: 500;">Share your results and inspire others to take the quiz. Let's create a community of eco-conscious individuals making a positive impact on the world.</p>
+                
+                <div class="result-badge" style="margin: 1.5rem 0;">
+                    <div class="personality-icon" id="sharePersonalityIcon">🌟</div>
+                    <div style="font-size: 1.2rem;" id="sharePersonalityText">I'm an Eco-Warrior!</div>
+                    <div style="font-size: 0.9rem; opacity: 0.9;">Take the quiz and find out your eco-personality!</div>
+                </div>
+                
+                <div class="social-buttons">
+                    <button class="social-btn instagram" onclick="shareResult('instagram')">📷</button>
+                    <button class="social-btn facebook" onclick="shareResult('facebook')">📘</button>
+                    <button class="social-btn twitter" onclick="shareResult('twitter')">🐦</button>
+                </div>
+            </div>
+            
+            <button class="btn" onclick="restartJourney()">Start New Journey</button>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="nav-dot active" onclick="goToScreen(1)"></div>
+        <div class="nav-dot" onclick="goToScreen(2)"></div>
+        <div class="nav-dot" onclick="goToScreen(3)"></div>
+        <div class="nav-dot" onclick="goToScreen(4)"></div>
+        <div class="nav-dot" onclick="goToScreen(5)"></div>
+    </div>
+
+    <script>
+        let currentScreen = 1;
+        let quizData = [
+            {
+                question: "🌿 How often do you recycle?",
+                options: [
+                    "Always - I recycle everything possible",
+                    "Most of the time",
+                    "Sometimes when convenient",
+                    "Rarely or never"
+                ]
+            },
+            {
+                question: "💧 How many plastic bottles do you use per week?",
+                options: [
+                    "None - I only use reusable bottles",
+                    "1-2 plastic bottles",
+                    "3-5 plastic bottles",
+                    "More than 5 plastic bottles"
+                ]
+            },
+            {
+                question: "💡 Do you prefer eco-friendly packaging?",
+                options: [
+                    "Yes, I actively seek eco-friendly options",
+                    "Yes, when available and affordable",
+                    "Sometimes, if it's convenient",
+                    "No, I don't really consider packaging"
+                ]
+            },
+            {
+                question: "🌱 How do you approach sustainable living?",
+                options: [
+                    "It's central to all my daily decisions",
+                    "I make eco-friendly choices when possible",
+                    "I'm learning and trying to improve",
+                    "I haven't thought much about it"
+                ]
+            }
+        ];
+        
+        let currentQuestionIndex = 0;
+        let quizScore = 0;
+        let selectedOption = null;
+
+        function nextScreen() {
+            if (currentScreen < 5) {
+                document.getElementById(`screen${currentScreen}`).classList.remove('active');
+                currentScreen++;
+                document.getElementById(`screen${currentScreen}`).classList.add('active');
+                updateNavigation();
+            }
+        }
+
+        function goToScreen(screenNum) {
+            document.getElementById(`screen${currentScreen}`).classList.remove('active');
+            currentScreen = screenNum;
+            document.getElementById(`screen${currentScreen}`).classList.add('active');
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            document.querySelectorAll('.nav-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentScreen);
+            });
+        }
+
+        function selectOption(element, score) {
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedOption = score;
+            document.getElementById('quizBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (selectedOption !== null) {
+                quizScore += selectedOption;
+                currentQuestionIndex++;
+                
+                if (currentQuestionIndex < quizData.length) {
+                    updateQuestion();
+                    updateProgress();
+                    selectedOption = null;
+                    document.getElementById('quizBtn').disabled = true;
+                } else {
+                    calculateResult();
+                    nextScreen();
+                }
+            }
+        }
+
+        function updateQuestion() {
+            const questionData = quizData[currentQuestionIndex];
+            const questionContainer = document.getElementById('currentQuestion');
+            
+            questionContainer.innerHTML = `
+                <div class="question-text">${questionData.question}</div>
+                <div class="options">
+                    ${questionData.options.map((option, index) => 
+                        `<div class="option" onclick="selectOption(this, ${3-index})">${option}</div>`
+                    ).join('')}
+                </div>
+            `;
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                document.getElementById('quizBtn').textContent = 'See Results';
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / quizData.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function calculateResult() {
+            let personality, icon, description;
+            
+            if (quizScore >= 10) {
+                personality = "Eco-Warrior";
+                icon = "🌟";
+                description = `You're an ${personality}! Keep up the good work and continue your sustainable journey. You're already making a big difference in protecting the environment.`;
+            } else if (quizScore >= 7) {
+                personality = "Sustainability Explorer";
+                icon = "🌿";
+                description = `You're a ${personality}! Keep up the good work and continue your sustainable journey. You're already making a big difference in protecting the environment.`;
+            } else if (quizScore >= 4) {
+                personality = "Green Dreamer";
+                icon = "🌱";
+                description = `You're a ${personality}! Keep up the good work and continue your sustainable journey. You're already making a big difference in protecting the environment.`;
+            } else {
+                personality = "Eco-Beginner";
+                icon = "🌍";
+                description = `You're an ${personality}! Keep up the good work and continue your sustainable journey. You're already making a big difference in protecting the environment.`;
+            }
+            
+            document.getElementById('personalityTitle').textContent = personality;
+            document.getElementById('personalityIcon').textContent = icon;
+            document.getElementById('personalityDescription').textContent = description;
+            
+            // Update sharing preview
+            document.getElementById('sharePersonalityIcon').textContent = icon;
+            document.getElementById('sharePersonalityText').textContent = `I'm ${personality.includes('Eco') ? 'an' : 'a'} ${personality}!`;
+        }
+
+        function shareResult(platform) {
+            const personality = document.getElementById('personalityTitle').textContent;
+            const message = `I'm an ${personality}! Take the quiz and find out your eco-personality. #CoolWater #SustainabilityJourney`;
+            
+            let shareUrl;
+            switch(platform) {
+                case 'instagram':
+                    alert('Instagram sharing would open the Instagram app with your result image!');
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(message)}`;
+                    window.open(shareUrl, '_blank');
+                    break;
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`;
+                    window.open(shareUrl, '_blank');
+                    break;
+            }
+        }
+
+        function restartJourney() {
+            currentScreen = 1;
+            currentQuestionIndex = 0;
+            quizScore = 0;
+            selectedOption = null;
+            
+            document.querySelectorAll('.screen').forEach(screen => screen.classList.remove('active'));
+            document.getElementById('screen1').classList.add('active');
+            
+            document.getElementById('progressFill').style.width = '25%';
+            document.getElementById('quizBtn').textContent = 'Next Question';
+            document.getElementById('quizBtn').disabled = true;
+            
+            updateQuestion();
+            updateNavigation();
+        }
+
+        updateQuestion();
+    </script>
+</body>
+</html>
